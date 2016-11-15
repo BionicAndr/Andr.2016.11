@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.List;
 
 /**  */
 public class ArticleListFragment extends Fragment {
+    private static final String TAG = ArticleListFragment.class.getSimpleName();
 
     private static final char[] TITLES = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
@@ -26,10 +27,29 @@ public class ArticleListFragment extends Fragment {
     private ArticleAdapter adapter;
 
     @Nullable
+    private OnArticleSelectionListener listener;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        try {
+            listener = (OnArticleSelectionListener) getActivity();
+        } catch (Exception e) {
+            Log.e(TAG, "Activity is not OnArticleSelectionListener", e);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragement_article_list, container, false);
+        return inflater.inflate(R.layout.fragment_article_list, container, false);
     }
 
     @Override
@@ -38,6 +58,18 @@ public class ArticleListFragment extends Fragment {
         listView = (ListView) view.findViewById(android.R.id.list);
         adapter = new ArticleAdapter(getActivity(), TITLES);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (listener != null) {
+                    listener.onArticleSelected(adapter.getItem(position));
+                }
+            }
+        });
+    }
+
+    public interface OnArticleSelectionListener {
+        void onArticleSelected(String title);
     }
 
     private static class ArticleAdapter extends BaseAdapter {
