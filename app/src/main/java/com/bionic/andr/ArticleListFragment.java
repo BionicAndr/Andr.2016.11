@@ -70,15 +70,25 @@ public class ArticleListFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View result = inflater.inflate(R.layout.li_article, parent, false);
-            TextView title = (TextView) result.findViewById(R.id.article_title);
+            final ViewHolder holder;
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = inflater.inflate(R.layout.li_article, parent, false);
+                holder.title = (TextView) convertView.findViewById(R.id.article_title);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
 
             final String text = getItem(position);
-            title.setText(text);
+            holder.title.setText(text);
 
-            return result;
+            return convertView;
         }
     }
 
+    static class ViewHolder {
+        TextView title;
+    }
 
 }
