@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Intent i = new Intent(context, DetailsActivity.class);
+                Intent i = new Intent(context, ArticleActivity.class);
                 startActivityForResult(i, REQUEST_DETAILS);
             }
         });
