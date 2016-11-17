@@ -1,5 +1,7 @@
 package com.bionic.andr;
 
+import com.bionic.andr.article.ArticleListActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = MainActivity.this;
-                Intent i = new Intent(context, ArticleActivity.class);
+                Intent i = new Intent(context, ArticleListActivity.class);
                 startActivityForResult(i, REQUEST_DETAILS);
             }
         });

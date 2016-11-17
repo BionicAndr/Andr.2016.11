@@ -1,4 +1,6 @@
-package com.bionic.andr;
+package com.bionic.andr.article;
+
+import com.bionic.andr.R;
 
 import org.w3c.dom.Text;
 
@@ -31,7 +33,7 @@ public class ArticleDetailsFragment extends Fragment {
 
         final Bundle args = getArguments();
         if (args != null) {
-            title.setText(args.getString(ARG_TTITLE));
+            setTitle(args.getString(ARG_TTITLE));
         }
     }
 

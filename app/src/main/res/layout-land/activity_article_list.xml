@@ -8,18 +8,16 @@
 
     <fragment
         android:tag="article_list"
-        android:name="com.bionic.andr.ArticleListFragment"
+        android:name="com.bionic.andr.article.ArticleListRecycleFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         tools:layout="@layout/fragment_article_list" />
 
-    <fragment
-        android:tag="article_details"
-        android:name="com.bionic.andr.ArticleDetailsFragment"
+    <FrameLayout
+        android:id="@+id/acrticle_details_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        tools:layout="@layout/fragment_article_details" />
+        android:layout_weight="2" />
 
 </LinearLayout>

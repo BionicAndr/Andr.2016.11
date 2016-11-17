@@ -18,7 +18,8 @@
 
         <activity android:name=".DetailsActivity"/>
 
-        <activity android:name=".ArticleActivity"/>
+        <activity android:name=".article.ArticleListActivity"/>
+        <activity android:name=".article.ArticleDetailsActivity"/>
 
     </application>
 
