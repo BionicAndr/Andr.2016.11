@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UpdateService.UpdateServiceListener {
 
     private static final int REQUEST_DETAILS = 10050;
 
@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private final UpdateService.UpdateServiceBroadcastReciever reciever =
+            new UpdateService.UpdateServiceBroadcastReciever() {
+                @Override
+                public void onDataUpdated() {
+                    message.setText("Service synced.. From reciever");
+                }
+            };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = MainActivity.this;
-                Intent i = new Intent(context, ArticleListActivity.class);
-                startActivityForResult(i, REQUEST_DETAILS);
+                if (service != null) {
+                    service.sync(MainActivity.this);
+                }
             }
         });
 
@@ -97,13 +105,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        reciever.register(this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        reciever.unregister(this);
         unbindService(connection);
     }
 
     private void onServiceConnected() {
-        service.sync(message);
     }
 
     @Override
@@ -117,5 +131,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onDataSynchronized() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                message.setText("Service synced.. Main thread says");
+            }
+        });
     }
 }
