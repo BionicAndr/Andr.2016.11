@@ -21,6 +21,8 @@
         <activity android:name=".article.ArticleListActivity"/>
         <activity android:name=".article.ArticleDetailsActivity"/>
 
+        <service android:name=".core.UpdateService"/>
+
     </application>
 
 </manifest>

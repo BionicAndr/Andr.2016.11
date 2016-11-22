@@ -1,18 +1,16 @@
 package com.bionic.andr;
 
 import com.bionic.andr.article.ArticleListActivity;
-import com.bionic.andr.db.DbContract;
-import com.bionic.andr.db.DbHelper;
+import com.bionic.andr.core.UpdateService;
 
-import android.content.ContentValues;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,15 +18,30 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_DETAILS = 10050;
 
-    private TextView messsage;
+    private TextView message;
+
+    private UpdateService service;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            UpdateService.LocalBinder binder = (UpdateService.LocalBinder) iBinder;
+            service = binder.getService();
+            MainActivity.this.onServiceConnected();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            service = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        messsage = (TextView) findViewById(R.id.message);
-        messsage.setText("New text");
+        message = (TextView) findViewById(R.id.message);
+        message.setText("New text");
 
         findViewById(R.id.details).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Intent intent = new Intent(this, UpdateService.class);
+        bindService(intent, connection, Service.BIND_AUTO_CREATE);
+
+
+        /*
         DbHelper helper = new DbHelper(this);
         SQLiteDatabase wdb = helper.getWritableDatabase();
 
@@ -74,7 +93,17 @@ public class MainActivity extends AppCompatActivity {
         } finally {
             c.close();
         }
+        */
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(connection);
+    }
+
+    private void onServiceConnected() {
+        service.sync(message);
     }
 
     @Override
@@ -83,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_DETAILS) {
             if (resultCode == RESULT_OK && data != null) {
                 String message = data.getStringExtra(DetailsActivity.DATA_MESSAGE);
-                this.messsage.setText(message);
+                this.message.setText(message);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
