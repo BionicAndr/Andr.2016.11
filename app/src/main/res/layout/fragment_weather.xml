@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/weather_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/weather_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="@color/white"
+            tools:text="London" />
+
+        <ImageView
+            android:id="@+id/weather_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@+id/weather_city"
+            android:layout_marginTop="@dimen/default_padding"
+            tools:src="@drawable/logger" />
+
+        <TextView
+            android:id="@+id/weather_temp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@id/weather_icon"
+            android:layout_alignTop="@id/weather_icon"
+            android:layout_marginLeft="@dimen/default_padding"
+            android:layout_toRightOf="@id/weather_icon"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            tools:text="45* Fair Rain" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_below="@id/weather_header">
+
+        <TextView
+            android:id="@+id/weather_min_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="Min tempertarute: -10*" />
+
+        <TextView
+            android:id="@+id/weather_max_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="Min tempertarute: +10*" />
+
+    </LinearLayout>
+
+</RelativeLayout>

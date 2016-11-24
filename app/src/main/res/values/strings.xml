@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Bionic Android 2016/11</string>
+
+    <string name="weather_current_template">%1$s %2$s</string>
+    <string name="weather_min_template">Min temperature: %s</string>
+    <string name="weather_max_template">Max temperature: %s</string>
+
 </resources>

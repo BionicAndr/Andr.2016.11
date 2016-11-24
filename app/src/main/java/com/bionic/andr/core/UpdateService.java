@@ -2,9 +2,6 @@ package com.bionic.andr.core;
 
 import com.bionic.andr.AndrApp;
 import com.bionic.andr.api.data.Weather;
-import com.bionic.andr.article.ArticleDetailsFragment;
-
-import org.w3c.dom.Text;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -15,13 +12,8 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,11 +33,22 @@ public class UpdateService extends Service {
 
     private final Handler mainHadler = new Handler(Looper.getMainLooper());
 
-    public void sync(final UpdateServiceListener listener) {
-        AndrApp.getInstance().getApi().getWeatherByCity("London").enqueue(new Callback<Weather>() {
+    public void sync(String city, final UpdateServiceListener listener) {
+        AndrApp.getInstance().getApi().getWeatherByCity(city).enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 Log.d(TAG, "Get weather success: " + response.code());
+                if (response.isSuccessful()) {
+                    final Weather weather = response.body();
+                    Log.d(TAG, "City: " + weather.getName());
+                    Log.d(TAG, "Temp: " + weather.getTemp().getCurrent());
+                    Log.d(TAG, "Condition: " + weather.getConditions().get(0).getDecr());
+                    Log.d(TAG, "Icon: " + weather.getIconUrl());
+
+                    if (listener != null) {
+                        listener.onDataSynchronized(weather);
+                    }
+                }
 
             }
 
@@ -56,8 +59,46 @@ public class UpdateService extends Service {
         });
     }
 
+            /*
+        DbHelper helper = new DbHelper(this);
+        SQLiteDatabase wdb = helper.getWritableDatabase();
+
+        ContentValues insertValues = new ContentValues(2);
+        insertValues.put(DbContract.Person.NAME, "Bob");
+        insertValues.put(DbContract.Person.AGE, 23);
+
+        long result = wdb.insert(DbContract.Person.TABLE, null, insertValues);
+
+        SQLiteDatabase rdb = helper.getReadableDatabase();
+        String[] columns = new String[] {
+                DbContract.Person.NAME,
+                DbContract.Person.AGE
+        };
+
+        Cursor c = rdb.query(DbContract.Person.TABLE,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                null
+                );
+
+        try {
+            int cName = c.getColumnIndex(DbContract.Person.NAME);
+            int cAge = c.getColumnIndex(DbContract.Person.AGE);
+            while (c.moveToNext()) {
+                String name = c.getString(cName);
+                int age = c.getInt(cAge);
+                Log.d("Database", "Name = " + name + " Age = " + age);
+            }
+        } finally {
+            c.close();
+        }
+        */
+
     public interface UpdateServiceListener {
-        void onDataSynchronized();
+        void onDataSynchronized(Weather weather);
     }
 
     public class LocalBinder extends Binder {
