@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bionic.andr">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".AndrApp"
@@ -11,8 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActioBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,21 +20,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".article.ArticleListActivity" />
+        <activity android:name=".article.ArticleDetailsActivity" />
 
-        <activity android:name=".DetailsActivity"/>
+        <service android:name=".core.UpdateService" />
 
-        <activity android:name=".article.ArticleListActivity"/>
-        <activity android:name=".article.ArticleDetailsActivity"/>
-
-        <service android:name=".core.UpdateService"/>
-
-        <receiver android:name=".core.SystemReceiver"
+        <receiver
+            android:name=".core.SystemReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW"/>
+                <action android:name="android.intent.action.BATTERY_LOW" />
             </intent-filter>
         </receiver>
 
-    </application>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"/>
+
+        <activity
+            android:name=".SimpleSettingsActivity"
+            android:label="@string/title_activity_settings"/>
+
+    </application>e
 
 </manifest>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="true"
     tools:context="com.bionic.andr.MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -27,5 +28,12 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_fab_add"/>
+
+    <com.bionic.andr.view.TriangleProgressView
+        android:id="@+id/progress"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="10dp"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

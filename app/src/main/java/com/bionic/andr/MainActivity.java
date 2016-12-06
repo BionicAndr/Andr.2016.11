@@ -6,8 +6,10 @@ import com.squareup.picasso.Picasso;
 
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
@@ -18,9 +20,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
     FloatingActionButton fab;
 
     private WeatherPageAdapter adapter;
+
+    private SharedPreferences localPref;
 
     private UpdateService service;
     private ServiceConnection connection = new ServiceConnection() {
@@ -71,11 +78,41 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
 
         Intent intent = new Intent(this, UpdateService.class);
         bindService(intent, connection, Service.BIND_AUTO_CREATE);
+
+        localPref = getApplicationContext().getSharedPreferences("MainActivity",
+                Context.MODE_PRIVATE);
+        localPref.edit().putString("city", "Lviv").apply();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final MenuItem item = menu.findItem(R.id.action_settings);
+//        item.setEnabled(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SimpleSettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.fab)
     void onFabClicked() {
-        service.sync("Kiev", this);
+        final String city = localPref.getString("city", "London");
+        service.sync(city, this);
     }
 
     @Override
@@ -86,7 +123,9 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(connection);
+        if (service != null) {
+            unbindService(connection);
+        }
     }
 
     private void onServiceConnected() {

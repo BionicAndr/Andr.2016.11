@@ -1,6 +1,7 @@
 package com.bionic.andr.core;
 
 import com.bionic.andr.AndrApp;
+import com.bionic.andr.R;
 import com.bionic.andr.api.data.Weather;
 
 import android.app.Service;
@@ -8,10 +9,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -33,7 +36,19 @@ public class UpdateService extends Service {
 
     private final Handler mainHadler = new Handler(Looper.getMainLooper());
 
+    private SharedPreferences pref;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
     public void sync(String city, final UpdateServiceListener listener) {
+        final boolean sync = pref.getBoolean(getString(R.string.pref_sync_key), true);
+        if (!sync) {
+            return;
+        }
         AndrApp.getInstance().getApi().getWeatherByCity(city).enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {

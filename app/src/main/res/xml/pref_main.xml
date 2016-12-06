@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference android:id="@+id/pref_sync"
+        android:title="@string/pref_sync"
+        android:key="@string/pref_sync_key"
+        android:checked="true"
+        android:defaultValue="true"/>
+
+    <EditTextPreference
+        android:id="@+id/pref_name"
+        android:key="main:name"
+        android:title="Name"/>
+
+</PreferenceScreen>
