@@ -67,7 +67,7 @@ public class TriangleProgressView extends View {
 
     private void init() {
         p = new Paint();
-        p.setColor(Color.BLACK);
+        p.setColor(Color.WHITE);
         p.setStrokeWidth(4);
         p.setStyle(Paint.Style.STROKE);
         p.setAntiAlias(true);
@@ -117,10 +117,11 @@ public class TriangleProgressView extends View {
 
         long now = System.currentTimeMillis();
         long diffRotation = (now - start) % ANIMATION_DURATION;
-        long diffScale = (now - start) % (ANIMATION_DURATION / 2);
+        long diffNow = now % (ANIMATION_DURATION / 2);
 
         float rotation = 360f * (float) diffRotation / ANIMATION_DURATION;
-        float scale = (1 + MAX_SCALE - MIN_SCALE) * (float) diffRotation / ANIMATION_DURATION;
+
+        float scale = (MAX_SCALE - MIN_SCALE) * (float) diffNow / ANIMATION_DURATION;
 
         int px = getWidth() / 2, py = getHeight() / 2;
         final int state = canvas.save();
