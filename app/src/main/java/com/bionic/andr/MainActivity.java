@@ -12,13 +12,18 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.IntDef;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,9 +38,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements UpdateService.UpdateServiceListener {
+public class MainActivity extends AppCompatActivity implements UpdateService.UpdateServiceListener,
+        LoaderManager.LoaderCallbacks {
 
     private static final int REQUEST_DETAILS = 10050;
+
+    private static final int LOADER_DUMB = 1;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -82,6 +90,16 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
         localPref = getApplicationContext().getSharedPreferences("MainActivity",
                 Context.MODE_PRIVATE);
         localPref.edit().putString("city", "Lviv").apply();
+
+        getSupportLoaderManager().initLoader(LOADER_DUMB, null, this);
+
+
+        final Intent i = getIntent();
+        final Bundle extras = i.getExtras();
+        if (extras != null) {
+            ScrollingActivity.Person p = extras.getParcelable("person");
+            Log.d("parcelable test", "" + p.getName() + " / " + p.getAge());
+        }
     }
 
     @Override
@@ -139,6 +157,25 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public Loader onCreateLoader(final int id, final Bundle args) {
+        if (id == LOADER_DUMB) {
+            return new MyLoader(this);
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(final Loader loader, final Object data) {
+        if (data != null) {
+            Toast.makeText(getApplicationContext(), "Loader result: " + data, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(final Loader loader) {
+    }
+
     private class WeatherPageAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> cache = new ArrayList<>();
@@ -161,6 +198,28 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
         @Override
         public int getCount() {
             return cache.size();
+        }
+    }
+
+    public static class MyLoader extends AsyncTaskLoader<Integer> {
+
+        public MyLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public Integer loadInBackground() {
+            try {
+                Thread.sleep(3000L);
+            } catch (InterruptedException e) {
+            }
+            return 500;
+        }
+
+        @Override
+        protected void onStartLoading() {
+            super.onStartLoading();
+            forceLoad();
         }
     }
 
