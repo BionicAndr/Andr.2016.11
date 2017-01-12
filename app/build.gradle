@@ -21,7 +21,36 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+
+        }
     }
+
+    flavorDimensions "api", "mode"
+
+    productFlavors {
+        prod {
+            dimension "api"
+            buildConfigField "String", "API_TOKEN", "\"4e5b36491c29f44d227659690cb0bc07\""
+        }
+
+        local {
+            dimension "api"
+            buildConfigField "String", "API_TOKEN", "\"4e5b36491c29f44d227659690cb0bc07\""
+        }
+
+        logging {
+            dimension "mode"
+            buildConfigField "boolean", "LOGGING", "true"
+        }
+
+        silent {
+            dimension "mode"
+            buildConfigField "boolean", "LOGGING", "false"
+        }
+
+    }
+
 }
 
 dependencies {
@@ -30,22 +59,25 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
-
-
-
-
     compile 'com.android.support:support-v4:25.0.1'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:support-vector-drawable:25.0.1'
+
+    compile 'com.google.dagger:dagger:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

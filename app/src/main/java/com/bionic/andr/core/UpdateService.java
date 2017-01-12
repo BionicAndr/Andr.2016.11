@@ -1,7 +1,9 @@
 package com.bionic.andr.core;
 
 import com.bionic.andr.AndrApp;
+import com.bionic.andr.BuildConfig;
 import com.bionic.andr.R;
+import com.bionic.andr.api.OpenWeatherApi;
 import com.bionic.andr.api.data.Weather;
 
 import android.app.Service;
@@ -16,7 +18,13 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+
+import java.util.Map;
+import java.util.Objects;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +36,9 @@ public class UpdateService extends Service {
 
     private final LocalBinder binder = new LocalBinder();
 
+    @Inject
+    OpenWeatherApi api;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,20 +47,28 @@ public class UpdateService extends Service {
 
     private final Handler mainHadler = new Handler(Looper.getMainLooper());
 
-    private SharedPreferences pref;
+    @Inject
+    SharedPreferences pref;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        AndrApp.getAppComponent().inject(this);
     }
 
     public void sync(String city, final UpdateServiceListener listener) {
+        if (BuildConfig.LOGGING) {
+            Map<String, ?> prefs = pref.getAll();
+            for (String key : prefs.keySet()) {
+                Log.d(TAG, key + " // " + prefs.get(key).toString());
+            }
+        }
+
         final boolean sync = pref.getBoolean(getString(R.string.pref_sync_key), true);
         if (!sync) {
             return;
         }
-        AndrApp.getInstance().getApi().getWeatherByCity(city).enqueue(new Callback<Weather>() {
+        api.getWeatherByCity(city).enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
                 Log.d(TAG, "Get weather success: " + response.code());

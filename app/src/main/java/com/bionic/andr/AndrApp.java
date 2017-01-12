@@ -1,6 +1,10 @@
 package com.bionic.andr;
 
 import com.bionic.andr.api.OpenWeatherApi;
+import com.bionic.andr.dagger.AppComponent;
+import com.bionic.andr.dagger.DaggerAppComponent;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import android.app.Application;
 
@@ -14,32 +18,18 @@ public class AndrApp extends Application {
 
     private static AndrApp app;
 
-    private OpenWeatherApi api;
+    private AppComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.openweathermap.org/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        api = retrofit.create(OpenWeatherApi.class);
+        component = AppComponent.Initializer.init(this);
     }
 
-    public static AndrApp getInstance() {
-        return app;
-    }
-
-    public OpenWeatherApi getApi() {
-        return api;
+    public static AppComponent getAppComponent() {
+        return app.component;
     }
 
 }
