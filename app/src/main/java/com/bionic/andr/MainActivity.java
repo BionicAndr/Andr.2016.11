@@ -4,7 +4,6 @@ import com.bionic.andr.api.data.Weather;
 import com.bionic.andr.core.UpdateService;
 import com.bionic.andr.dagger.PrefModule;
 import com.bionic.andr.dagger.SensorModule;
-import com.squareup.picasso.Picasso;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -18,11 +17,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,13 +31,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -186,23 +180,25 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
     @Override
     protected void onStart() {
         super.onStart();
-
+        /*
         HandlerThread thread = new HandlerThread("sensor");
         thread.start();
         sensorHandler = new Handler(thread.getLooper());
-
         sensorManager.registerListener(accelListener, accel,
                 SensorManager.SENSOR_DELAY_NORMAL, sensorHandler);
+        */
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        /*
         sensorManager.unregisterListener(accelListener);
         sensorHandler.getLooper().quit();
         if (service != null) {
             unbindService(connection);
         }
+        */
     }
 
     private void onServiceConnected() {

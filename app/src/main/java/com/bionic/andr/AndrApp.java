@@ -1,17 +1,9 @@
 package com.bionic.andr;
 
-import com.bionic.andr.api.OpenWeatherApi;
 import com.bionic.andr.dagger.AppComponent;
-import com.bionic.andr.dagger.DaggerAppComponent;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
+import com.bionic.andr.rx.RxHelloWorld;
 
 import android.app.Application;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**  */
 public class AndrApp extends Application {
@@ -24,7 +16,6 @@ public class AndrApp extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-
         component = AppComponent.Initializer.init(this);
     }
 
