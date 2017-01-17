@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Func1;
 import rx.functions.Func2;
 
 public class RxPracticeTask {
@@ -17,7 +18,9 @@ public class RxPracticeTask {
      * @return observable with city name length.
      */
     public static Observable<Integer> practice1(@NonNull List<String> cities) {
-        throw new RuntimeException("Not implemented");
+        return Observable.from(cities)
+                .filter(s -> s.startsWith("L") || s.startsWith("l"))
+                .map(s -> s.length());
     }
 
     /**
@@ -26,13 +29,20 @@ public class RxPracticeTask {
      * 3) remove 45000 from start and take next 10000
      * 4) remove elements divided by 2
      * 5) transform into BigInteger
-     * 6) multiply all values into one
+     * 6) multiply all values one by one
      * 7) cache
      *
      * @return cached result with single BigInteger
      */
     public static Observable<BigInteger> practice2() {
-        throw new RuntimeException("Not implemented");
+        return Observable.range(1, 100_000)
+                .map(integer -> integer * 3)
+                .skip(45_000)
+                .take(10_000)
+                .filter(i -> i % 2 != 0)
+                .map(integer -> BigInteger.valueOf(integer))
+                .reduce(BigInteger.ONE, (i1, i2) -> i1.multiply(i2))
+                .cache();
     }
 
 
@@ -45,7 +55,11 @@ public class RxPracticeTask {
      */
     public static Observable<Person> practice3(List<Person> father1,
             List<Person> mother1, List<Person> father2, List<Person> mother2) {
-        throw new RuntimeException("Not implemented");
+        return Observable.zip(
+                Observable.from(father1).concatWith(Observable.from(father2)),
+                Observable.from(mother1).concatWith(Observable.from(mother2)),
+                (father, mother) -> Person.makeChild(father, mother)
+        );
     }
 
 }

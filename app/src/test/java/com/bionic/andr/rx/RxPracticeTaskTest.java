@@ -142,6 +142,7 @@ public class RxPracticeTaskTest {
         List<Person> mother2 = new ArrayList<>(2);
         mother2.add(new Person("Kate", 30));
         mother2.add(new Person("Helen", 21));
+        mother2.add(new Person("Olga", 21));
         parents.add(father1);
         parents.add(mother1);
         parents.add(father2);
