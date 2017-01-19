@@ -1,13 +1,21 @@
-package com.bionic.andr.rx;
+package com.bionic.andr.db.model;
 
+import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteColumn;
+import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
+
+//@StorIOSQLiteType(table = "person")
 public class Person {
-
-    private String name;
-
-    private int age;
+    //@StorIOSQLiteColumn(name = "name")
+    String name;
+    //@StorIOSQLiteColumn(name = "age")
+    int age;
 
     public static Person makeChild(Person father, Person mother) {
         return new Person("Child of " + father.getName() + " and " + mother.getName(), 0);
+    }
+
+    public Person() {
+        // for StorIO
     }
 
     public Person(String name, int age) {

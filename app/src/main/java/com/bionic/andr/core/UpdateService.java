@@ -29,6 +29,9 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**  */
 public class UpdateService extends Service {
@@ -68,6 +71,25 @@ public class UpdateService extends Service {
         if (!sync) {
             return;
         }
+
+        api.getWeatherByCity(city)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        weather -> {
+                            Log.d(TAG, "City: " + weather.getName());
+                            Log.d(TAG, "Temp: " + weather.getTemp().getCurrent());
+                            Log.d(TAG, "Condition: " + weather.getConditions().get(0).getDecr());
+                            Log.d(TAG, "Icon: " + weather.getIconUrl());
+
+                            if (listener != null) {
+                                listener.onDataSynchronized(weather);
+                            }
+                        },
+                        t -> {
+                            Log.e(TAG, "Get weather failed", t);
+                        });
+        /*
         api.getWeatherByCity(city).enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
@@ -91,6 +113,7 @@ public class UpdateService extends Service {
                 Log.e(TAG, "Get weather failed", t);
             }
         });
+        */
     }
 
             /*

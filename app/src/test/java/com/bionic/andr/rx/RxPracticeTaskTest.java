@@ -1,9 +1,9 @@
 package com.bionic.andr.rx;
 
+import com.bionic.andr.db.model.Person;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import android.widget.ListView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

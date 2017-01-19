@@ -1,13 +1,13 @@
 package com.bionic.andr.rx;
 
+import com.bionic.andr.db.model.Person;
+
 import android.support.annotation.NonNull;
 
 import java.math.BigInteger;
 import java.util.List;
 
 import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.Func2;
 
 public class RxPracticeTask {
 

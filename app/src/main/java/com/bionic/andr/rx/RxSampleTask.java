@@ -1,5 +1,7 @@
 package com.bionic.andr.rx;
 
+import com.bionic.andr.db.model.Person;
+
 import java.util.List;
 
 import rx.Observable;

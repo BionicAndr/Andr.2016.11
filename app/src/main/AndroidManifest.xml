@@ -3,7 +3,11 @@
     package="com.bionic.andr">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    e
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <application
         android:name=".AndrApp"
         android:allowBackup="true"
@@ -12,14 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ScrollingActivity"
-            android:theme="@style/AppTheme.NoActioBar">
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ScrollingActivity"
+            android:theme="@style/AppTheme.NoActioBar"/>
+
         <activity android:name=".DetailsActivity" />
         <activity android:name=".article.ArticleListActivity" />
         <activity android:name=".article.ArticleDetailsActivity" />
