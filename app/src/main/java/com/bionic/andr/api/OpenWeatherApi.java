@@ -13,8 +13,7 @@ import rx.Observable;
 
 public interface OpenWeatherApi {
 
-//    @GET("data/2.5/weather?appid=" + BuildConfig.API_TOKEN)
-    @GET("data/2.5/weather")
+    @GET("data/2.5/weather?appid=" + BuildConfig.API_TOKEN)
     Observable<Weather> getWeatherByCity(@Query("q") String city);
 
 }
