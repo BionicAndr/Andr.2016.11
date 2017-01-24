@@ -2,6 +2,7 @@ package com.bionic.andr.dagger;
 
 import com.bionic.andr.AndrApp;
 import com.bionic.andr.core.UpdateService;
+import com.bionic.andr.mvp.login.LoginPresenter;
 
 import javax.inject.Singleton;
 
@@ -22,6 +23,7 @@ public interface AppComponent {
 
     void inject(AndrApp app);
     void inject(UpdateService updateService);
+    void inject(LoginPresenter loginPresenter);
 
     static final class Initializer {
         private Initializer() {
