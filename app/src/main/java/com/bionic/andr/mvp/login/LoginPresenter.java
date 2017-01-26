@@ -2,6 +2,7 @@ package com.bionic.andr.mvp.login;
 
 import com.bionic.andr.api.OpenWeatherApi;
 import com.bionic.andr.dagger.AppComponent;
+import com.bionic.andr.dagger.NonConfigurationScope;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,17 +16,29 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**  */
+@NonConfigurationScope
 public class LoginPresenter {
+    /** Log tag. */
+    private static final String TAG = LoginPresenter.class.getSimpleName();
+
     private LoginView view;
 
-    @Inject
-    OpenWeatherApi api;
+    private OpenWeatherApi api;
 
-    public LoginPresenter(AppComponent component) {
-        component.inject(this);
+    @Inject
+    public LoginPresenter(OpenWeatherApi api) {
+        Log.d(TAG, "NEW " + this);
+        this.api = api;
     }
 
     public void attach(LoginView view) {
+        if (this.view != null) {
+            Log.w(TAG, "View leaked!!! " + this.view + " from " + this);
+            detach();
+        }
+
+        Log.d(TAG, "attach " + view + " to " + this);
+
         this.view = view;
         Observable<LoginData> validation = Observable.combineLatest(
                 view.emailChange(),
@@ -42,6 +55,7 @@ public class LoginPresenter {
     }
 
     public void detach() {
+        Log.d(TAG, "detach " + view + " from " + this);
         this.view = null;
     }
 

@@ -21,9 +21,10 @@ public interface AppComponent {
 
     ActivityComponent plusActivityComponent();
 
+    NonConfigurationComponent plusNonConfiguration();
+
     void inject(AndrApp app);
     void inject(UpdateService updateService);
-    void inject(LoginPresenter loginPresenter);
 
     static final class Initializer {
         private Initializer() {

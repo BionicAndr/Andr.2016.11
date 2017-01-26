@@ -3,6 +3,7 @@ package com.bionic.andr.mvp;
 import com.bionic.andr.AndrApp;
 import com.bionic.andr.R;
 import com.bionic.andr.api.data.Weather;
+import com.bionic.andr.dagger.NonConfigurationComponent;
 import com.bionic.andr.mvp.login.LoginPresenter;
 import com.bionic.andr.mvp.login.LoginView;
 import com.bionic.andr.ui.ProgressDialogFragment;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -39,7 +42,7 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**  */
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends BaseActivity implements LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final String PROGRESS_DIALOG_TAG = "dialog:progress";
@@ -51,16 +54,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.login_submit)
     View submit;
 
+    @Inject
     LoginPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        presenter = new LoginPresenter(AndrApp.getAppComponent());
         presenter.attach(this);
+    }
+
+    @Override
+    public void inject(final NonConfigurationComponent injector) {
+        injector.inject(this);
     }
 
     @Override
