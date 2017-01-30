@@ -10,13 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/login_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/password"/>
+        android:hint="@string/password"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/city_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/input_city"
+            android:layout_weight="5"/>
+
+        <ImageView
+            android:id="@+id/pick_up_location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/location"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/login_submit"

@@ -8,9 +8,10 @@ buildscript {
     }
 }
 
-// Required because retrolambda is on maven central
+
 repositories {
-    mavenCentral()
+    mavenCentral() // Required because retrolambda is on maven central
+    jcenter() //RxPermissions
 }
 
 apply plugin: 'com.android.application'
@@ -117,6 +118,8 @@ dependencies {
     compile 'com.pushtorefresh.storio:sqlite:1.12.1'
     compile 'com.pushtorefresh.storio:sqlite-annotations:1.12.1'
     annotationProcessor 'com.pushtorefresh.storio:sqlite-annotations-processor:1.12.1'
+
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
 
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'

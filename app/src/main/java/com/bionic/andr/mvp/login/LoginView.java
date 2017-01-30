@@ -9,10 +9,14 @@ public interface LoginView {
 
     Observable<CharSequence> emailChange();
     Observable<CharSequence> passwordChange();
+    Observable<CharSequence> cityChange();
+    Observable<Void> pickUpLocation();
     Observable<Void> tryToLogin();
 
     void onValidationCheck(boolean valid);
     void showProgress(boolean show);
     void onWeatherLoaded(Weather weather);
     void onError(int status);
+
+    void setCityName(CharSequence city);
 }
