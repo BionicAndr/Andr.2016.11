@@ -274,7 +274,9 @@ public class MainActivity extends AppCompatActivity implements UpdateService.Upd
         public Integer loadInBackground() {
             try {
                 Thread.sleep(3000L);
+                //CHECKSTYLE:OFF
             } catch (InterruptedException e) {
+                //CHECKSTYLE:ON
             }
             return 500;
         }

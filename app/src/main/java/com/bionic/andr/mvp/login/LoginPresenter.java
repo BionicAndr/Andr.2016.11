@@ -27,17 +27,17 @@ public class LoginPresenter {
 
     @Inject
     public LoginPresenter(OpenWeatherApi api) {
-        Log.d(TAG, "NEW " + this);
+//        Log.d(TAG, "NEW " + this);
         this.api = api;
     }
 
     public void attach(LoginView view) {
         if (this.view != null) {
-            Log.w(TAG, "View leaked!!! " + this.view + " from " + this);
+//            Log.w(TAG, "View leaked!!! " + this.view + " from " + this);
             detach();
         }
 
-        Log.d(TAG, "attach " + view + " to " + this);
+//        Log.d(TAG, "attach " + view + " to " + this);
 
         this.view = view;
         Observable<LoginData> validation = Observable.combineLatest(
@@ -55,7 +55,7 @@ public class LoginPresenter {
     }
 
     public void detach() {
-        Log.d(TAG, "detach " + view + " from " + this);
+//        Log.d(TAG, "detach " + view + " from " + this);
         this.view = null;
     }
 
@@ -84,11 +84,12 @@ public class LoginPresenter {
     }
 
     private boolean isPasswordValid(CharSequence passText) {
-        return !TextUtils.isEmpty(passText);
+        return passText != null && passText.length() > 0;
     }
 
     private boolean isEmailValid(CharSequence emailText) {
-        return !TextUtils.isEmpty(emailText) && Patterns.EMAIL_ADDRESS.matcher(emailText).matches();
+        //TODO: write email pattern
+        return emailText != null && emailText.length() > 0;// && Patterns.EMAIL_ADDRESS.matcher(emailText).matches();
     }
 
 

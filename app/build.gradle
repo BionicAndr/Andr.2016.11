@@ -15,6 +15,7 @@ repositories {
 
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 25
@@ -44,7 +45,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-
         }
     }
 
@@ -78,6 +78,24 @@ android {
     }
 
 }
+
+task checkstyle(type: Checkstyle) {
+    configFile project.file('../config/checkstyle.xml')
+    showViolations true
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    exclude '**/org/**'
+
+    def configProps = ['proj.module.dir': projectDir.absolutePath]
+    configProperties configProps
+
+    // empty classpath
+    classpath = files()
+}
+preBuild.dependsOn('checkstyle')
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

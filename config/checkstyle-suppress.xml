@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2014. Chimera IoT Inc. All rights reserved.
+  -->
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+<suppressions>
+    <!-- Turn off all checks generated sources. -->
+    <suppress checks="[a-zA-Z0-9]*" files="R\.java" />
+    <suppress checks=".*" files="BuildConfig\.java" />
+    <suppress checks=".*" files="Manifest\.java" />
+    <suppress checks=".*" files="gen/.+" />
+    <!-- Imported classed -->
+    <suppress checks=".*" files="LinuxUtils.java" />
+    <!-- Turn off all checks for android classes. -->
+    <suppress checks="." files="com[\\/]android[\\/]..*.java" />
+    <!-- Turn off all checks for tests. -->
+    <suppress checks=".*" files="androidTest/.+" />
+</suppressions>
