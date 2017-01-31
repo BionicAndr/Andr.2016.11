@@ -1,0 +1,3 @@
+[submodule "RxPermissions"]
+	path = RxPermissions
+	url = https://github.com/tbruyelle/RxPermissions.git
