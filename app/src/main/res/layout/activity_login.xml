@@ -6,22 +6,22 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/et_city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email"
+        android:hint="City"
         android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/login_pass"
+    <TextView
+        android:id="@+id/tv_city_current_temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/password"/>
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/login_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"/>
+        android:text="Show"/>
 
 </LinearLayout>

@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -47,10 +48,10 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     private static final String PROGRESS_DIALOG_TAG = "dialog:progress";
 
-    @BindView(R.id.login_email)
-    EditText email;
-    @BindView(R.id.login_pass)
-    EditText password;
+    @BindView(R.id.et_city_name)
+    EditText city;
+    @BindView(R.id.tv_city_current_temperature)
+    TextView currenTemp;
     @BindView(R.id.login_submit)
     View submit;
 
@@ -75,19 +76,15 @@ public class LoginActivity extends BaseActivity implements LoginView {
         presenter.detach();
     }
 
-    @Override
-    public Observable<CharSequence> emailChange() {
-        return RxTextView.textChanges(email);
-    }
-
-    @Override
-    public Observable<CharSequence> passwordChange() {
-        return RxTextView.textChanges(password);
-    }
 
     @Override
     public Observable<Void> tryToLogin() {
         return RxView.clicks(submit);
+    }
+
+    @Override
+    public Observable<CharSequence> chooseCity() {
+        return RxTextView.textChanges(city);
     }
 
     @Override
@@ -111,12 +108,17 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void onWeatherLoaded(Weather weather) {
-        Toast.makeText(getApplicationContext(), weather.getName() + " / " + weather.getTemp(),
-                Toast.LENGTH_SHORT).show();
+        city.setText(weather.getName());
+        currenTemp.setText(String.valueOf((int) (weather.getTemp().getCurrent() - 273.15) + " •C"));
     }
 
     @Override
     public void onError(int status) {
         Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String cityName() {
+       return String.valueOf(city.getText());
     }
 }

@@ -40,12 +40,16 @@ public class LoginPresenter {
 //        Log.d(TAG, "attach " + view + " to " + this);
 
         this.view = view;
-        Observable<LoginData> validation = Observable.combineLatest(
+       /* Observable<LoginData> validation = Observable.combineLatest(
                 view.emailChange(),
                 view.passwordChange(),
                 (email, password) -> new LoginData(email, password)
         )
-        .doOnNext(loginData -> validate(loginData));
+        .doOnNext(loginData -> validate(loginData));*/
+
+        Observable<CharSequence> validation = view.chooseCity()
+                .doOnNext(cityName -> validate(cityName));
+
 
         view.tryToLogin()
                 .withLatestFrom(validation, (aVoid, loginData) -> loginData)
@@ -59,9 +63,9 @@ public class LoginPresenter {
         this.view = null;
     }
 
-    private void login(LoginData loginData) {
+    private void login(CharSequence cityName) {
         view.showProgress(true);
-        api.getWeatherByCity("Lviv")
+        api.getWeatherByCity(getCityName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(weather -> {
@@ -75,31 +79,25 @@ public class LoginPresenter {
                 });
     }
 
-    private void validate(LoginData loginData) {
-        Observable.just(loginData)
-                .map(login -> isEmailValid(login.email) && isPasswordValid(login.password))
+    private String getCityName() {
+        return view.cityName();
+    }
+
+    private void validate(CharSequence cityName) {
+        Observable.just(cityName)
+                .map(login -> isCityValid(cityName))
                 .subscribe(valid -> {
                     view.onValidationCheck(valid);
                 });
     }
 
-    private boolean isPasswordValid(CharSequence passText) {
-        return passText != null && passText.length() > 0;
-    }
 
-    private boolean isEmailValid(CharSequence emailText) {
-        //TODO: write email pattern
-        return emailText != null && emailText.length() > 0;// && Patterns.EMAIL_ADDRESS.matcher(emailText).matches();
+
+    private boolean isCityValid(CharSequence cityText) {
+        return cityText.length() > 1;
     }
 
 
-    private static class LoginData {
-        private final CharSequence email, password;
 
-        private LoginData(CharSequence email, CharSequence password) {
-            this.email = email;
-            this.password = password;
-        }
-    }
 
 }
