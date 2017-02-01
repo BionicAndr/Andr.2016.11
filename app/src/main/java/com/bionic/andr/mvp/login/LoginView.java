@@ -1,5 +1,7 @@
 package com.bionic.andr.mvp.login;
 
+import android.widget.EditText;
+
 import com.bionic.andr.api.data.Weather;
 
 import rx.Observable;
@@ -15,4 +17,5 @@ public interface LoginView {
     void showProgress(boolean show);
     void onWeatherLoaded(Weather weather);
     void onError(int status);
+    String cityName();
 }
