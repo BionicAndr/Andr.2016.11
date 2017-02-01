@@ -9,9 +9,8 @@ import rx.Observable;
 /**  */
 public interface LoginView {
 
-    Observable<CharSequence> emailChange();
-    Observable<CharSequence> passwordChange();
     Observable<Void> tryToLogin();
+    Observable<CharSequence> chooseCity();
 
     void onValidationCheck(boolean valid);
     void showProgress(boolean show);
