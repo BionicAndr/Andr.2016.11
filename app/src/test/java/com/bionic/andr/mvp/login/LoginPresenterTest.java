@@ -51,6 +51,11 @@ public class LoginPresenterTest {
             @Override
             public void onError(int status) {
             }
+
+            @Override
+            public void openMainScreen() {
+
+            }
         };
         LoginPresenter presenter = new LoginPresenter();
 

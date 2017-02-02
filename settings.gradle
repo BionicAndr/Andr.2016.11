@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':rxperm'
 //include ':RxPermissions:lib'
