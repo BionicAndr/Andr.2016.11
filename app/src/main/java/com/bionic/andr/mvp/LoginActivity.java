@@ -2,6 +2,7 @@ package com.bionic.andr.mvp;
 
 import com.bionic.andr.AndrApp;
 import com.bionic.andr.R;
+import com.bionic.andr.SplashActivity;
 import com.bionic.andr.api.data.Weather;
 import com.bionic.andr.dagger.NonConfigurationComponent;
 import com.bionic.andr.mvp.login.LoginPresenter;
@@ -118,5 +119,11 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void onError(int status) {
         Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void openMainScreen() {
+        Intent i = new Intent(this, SplashActivity.class);
+        startActivity(i);
     }
 }

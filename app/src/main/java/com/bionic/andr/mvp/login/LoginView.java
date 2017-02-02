@@ -15,4 +15,5 @@ public interface LoginView {
     void showProgress(boolean show);
     void onWeatherLoaded(Weather weather);
     void onError(int status);
+    void openMainScreen();
 }

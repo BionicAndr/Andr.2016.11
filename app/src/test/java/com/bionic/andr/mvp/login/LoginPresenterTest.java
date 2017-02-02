@@ -52,7 +52,7 @@ public class LoginPresenterTest {
             public void onError(int status) {
             }
         };
-        LoginPresenter presenter = new LoginPresenter(null);
+        LoginPresenter presenter = new LoginPresenter();
 
         presenter.attach(view);
         try {

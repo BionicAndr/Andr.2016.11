@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -23,12 +25,12 @@ public class LoginPresenter {
 
     private LoginView view;
 
-    private OpenWeatherApi api;
+    @Inject
+    OpenWeatherApi api;
 
     @Inject
-    public LoginPresenter(OpenWeatherApi api) {
+    public LoginPresenter() {
 //        Log.d(TAG, "NEW " + this);
-        this.api = api;
     }
 
     public void attach(LoginView view) {
@@ -61,17 +63,19 @@ public class LoginPresenter {
 
     private void login(LoginData loginData) {
         view.showProgress(true);
-        api.getWeatherByCity("Lviv")
+        Observable.timer(2, TimeUnit.SECONDS)
+        //api.getWeatherByCity("Lviv")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(weather -> {
                     view.showProgress(false);
-                    view.onWeatherLoaded(weather);
+                    //view.onWeatherLoaded(weather);
+                    view.openMainScreen();
                 },
                 t -> {
                     view.showProgress(false);
-                    HttpException ex = (HttpException) t;
-                    view.onError(ex.code());
+                    //HttpException ex = (HttpException) t;
+                    //view.onError(ex.code());
                 });
     }
 

@@ -5,7 +5,7 @@ import com.bionic.andr.MainActivity;
 import dagger.Subcomponent;
 
 @ActivityScope
-@Subcomponent(modules = {})
+@Subcomponent
 public interface ActivityComponent {
 
     FragmentComponent plusFragmentComponent();

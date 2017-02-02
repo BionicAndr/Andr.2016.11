@@ -1,8 +1,11 @@
 package com.bionic.andr.dagger;
 
 import com.bionic.andr.AndrApp;
+import com.bionic.andr.MainActivity;
+import com.bionic.andr.SplashActivity;
 
 import android.content.Context;
+import android.content.Intent;
 
 import dagger.Module;
 import dagger.Provides;
