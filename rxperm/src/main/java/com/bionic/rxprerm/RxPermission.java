@@ -18,13 +18,6 @@ public class RxPermission {
     public static Observable<PermissionResult> ensure(
             final AppCompatActivity activity, String... permission) {
         return Observable.from(permission)
-                .filter(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        return ContextCompat.checkSelfPermission(activity, s)
-                                != PackageManager.PERMISSION_GRANTED;
-                    }
-                })
                 .toList()
                 .map(new Func1<List<String>, ArrayList<String>>() {
                     @Override
